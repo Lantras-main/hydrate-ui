@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydrate UI Documentation</title>
+    <style>
+        :root {
+            --bg-main: #0a0a0a;
+            --bg-section: #121212;
+            --border: #333333;
+            --accent: #ffffff;
+            --text: #cccccc;
+            --text-dark: #777777;
+            --hover: #1c1c1c;
+            --code-bg: #0e0e0e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: monospace;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        sidebar {
+            width: 260px;
+            background-color: var(--bg-section);
+            border-right: 1px solid var(--border);
+            padding: 30px 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transform: translateX(-100%);
+            animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideIn {
+            to { transform: translateX(0); }
+        }
+
+        sidebar h2 {
+            color: var(--accent);
+            font-size: 14px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        sidebar ul {
+            list-style: none;
+        }
+
+        sidebar ul li {
+            margin-bottom: 12px;
+            opacity: 0;
+            transform: translateX(-10px);
+            animation: fadeInItem 0.4s ease forwards;
+        }
+
+        sidebar ul li:nth-child(1) { animation-delay: 0.1s; }
+        sidebar ul li:nth-child(2) { animation-delay: 0.2s; }
+        sidebar ul li:nth-child(3) { animation-delay: 0.3s; }
+        sidebar ul li:nth-child(4) { animation-delay: 0.4s; }
+        sidebar ul li:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeInItem {
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        sidebar ul li a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.2s ease, transform 0.2s ease;
+            display: inline-block;
+        }
+
+        sidebar ul li a:hover {
+            color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        main {
+            margin-left: 260px;
+            padding: 50px;
+            max-width: 900px;
+            width: calc(100% - 260px);
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeInMain 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+        }
+
+        @keyframes fadeInMain {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        section {
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            color: var(--accent);
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: var(--accent);
+            font-size: 16px;
+            margin-top: 30px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 6px;
+        }
+
+        p {
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        pre:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        code {
+            color: var(--accent);
+            font-size: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            font-size: 12px;
+            background-color: var(--bg-section);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            text-align: left;
+            transition: background-color 0.2s ease;
+        }
+
+        th {
+            background-color: #171717;
+            color: var(--accent);
+        }
+
+        td {
+            color: var(--text-dark);
+        }
+
+        tr:hover td {
+            background-color: var(--hover);
+            color: var(--text);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background-color: var(--bg-section);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 4px;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+        }
+
+        .card h3 {
+            font-size: 13px;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+
+        .card p {
+            font-size: 11px;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <sidebar>
+        <h2>HYDRATE UI</h2>
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#setup">Setup</a></li>
+            <li><a href="#layout">Layouts & Tabs</a></li>
+            <li><a href="#reference">Elements Reference</a></li>
+            <li><a href="#example">Quick Example</a></li>
+        </ul>
+    </sidebar>
+
+    <main>
+        <section id="overview">
+            <h1>Overview</h1>
+            <p>Hydrate is a straightforward Lua UI library designed for Roblox scripts. It's built with pure black-and-white aesthetics, smooth tweening animations, and a multi-column section setup so your script menus stay clean and organized.</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>SHITASSUI</h3>
+                    <p>Uses standard Roblox UI instances with lightweight tweens.</p>
+                </div>
+                <div class="card">
+                    <h3>SHITASSUI</h3>
+                    <p>SHITASSUI.</p>
+                </div>
+                <div class="card">
+                    <h3>SHITASSUI</h3>
+                    <p>SHITASSUI.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="setup">
+            <h2>Setup</h2>
+            <p>Load the script via standard HttpGet and pass your main window title into the constructor.</p>
+            <pre><code>local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Lantras-main/hydrate-ui/refs/heads/main/main.lua"))()
+
+local Window = Library.new("My Script Window")</code></pre>
+        </section>
+
+        <section id="layout">
+            <h2>Layouts & Tabs</h2>
+            <p>Create tabs to house your interface categories, then add sections to either the left or right column.</p>
+            <pre><code>local MainTab = Window:AddTab("Main")
+
+local LeftCol = MainTab:AddSection("left", "Player Settings")
+local RightCol = MainTab:AddSection("right", "Visual Toggles")</code></pre>
+        </section>
+
+        <section id="reference">
+            <h2>Elements Reference</h2>
+            <p>Full breakdown of all element methods available on a section object.</p>
+
+            <table>
+                <tr>
+                    <th>Method Name</th>
+                    <th>Arguments</th>
+                    <th>Details</th>
+                </tr>
+                <tr>
+                    <td><code>AddButton</code></td>
+                    <td>name, callback</td>
+                    <td>Fires a brief highlight animation on click.</td>
+                </tr>
+                <tr>
+                    <td><code>AddToggle</code></td>
+                    <td>name, default, callback</td>
+                    <td>Checkbox toggle. Returns object with <code>:Set(bool)</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>AddSlider</code></td>
+                    <td>name, min, max, default, precise, callback</td>
+                    <td>Draggable slider. Pass true to precision decimals. Returns <code>:Set(val)</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>AddDropdown</code></td>
+                    <td>name, list, default, callback</td>
+                    <td>Dropdown list with smooth dropdown scaling animations.</td>
+                </tr>
+                <tr>
+                    <td><code>AddTextbox</code></td>
+                    <td>name, placeholder, callback</td>
+                    <td>Input box triggering on focus loss or enter press.</td>
+                </tr>
+                <tr>
+                    <td><code>AddKeybind</code></td>
+                    <td>name, defaultKey, callback</td>
+                    <td>Binds a key and listens for changes on the fly.</td>
+                </tr>
+                <tr>
+                    <td><code>AddLabel</code></td>
+                    <td>text</td>
+                    <td>Static text row. Returns object with <code>:Set(text)</code>.</td>
+                </tr>
+            </table>
+        </section>
+
+        <section id="example">
+            <h2>Quick Example</h2>
+            <p>A sample snippet showing how everything hooks together in practice.</p>
+            <pre><code>local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Lantras-main/hydrate-ui/refs/heads/main/main.lua"))()
+
+local Window = Library.new("Test Hub")
+local Tab = Window:AddTab("Combat")
+local Sec = Tab:AddSection("left", "Aimbot")
+
+Sec:AddToggle("Enabled", true, function(state)
+    print("Aimbot:", state)
+end)
+
+Sec:AddSlider("FOV", 50, 300, 100, function(value)
+    print("FOV size:", value)
+end)</code></pre>
+        </section>
+    </main>
+
+</body>
+</html>
